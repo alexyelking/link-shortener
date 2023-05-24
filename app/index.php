@@ -16,12 +16,14 @@ echo "Connected successfully\n";
 
 
 
+$limit = empty($_GET['limit']) ? 100 : $_GET['limit'];
+$offset = $_GET['offset'] ?: 0;
 
-$limit = 1;
-$offset = 1;
-
-$sql = "SELECT * FROM links LIMIT " . $limit . " OFFSET " . $offset;
-$result = $conn->query($sql);
+$sql = "SELECT * FROM links LIMIT ? OFFSET ?";
+$statement = $conn->prepare($sql);
+$statement->bind_param("ii", $limit, $offset);
+$statement->execute();
+$result = $statement->get_result();
 
 if ($result->num_rows > 0) {
     // output data of each row
