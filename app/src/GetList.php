@@ -1,4 +1,9 @@
 <?php
+
+namespace Shortener;
+
+use mysqli;
+
 class GetList {
     private mysqli $db;
     public function __construct(mysqli $db)

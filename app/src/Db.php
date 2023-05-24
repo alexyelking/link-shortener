@@ -1,6 +1,11 @@
 <?php
-class MysqliDatabase{
-    public function connect(){
+
+namespace Shortener;
+
+use mysqli;
+
+class Db {
+    public function connect(): mysqli{
         $servername = "db";
         $username = "root";
         $password = "root";

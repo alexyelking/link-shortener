@@ -1,0 +1,14 @@
+{
+    "name": "sanya/vendor",
+    "autoload": {
+        "psr-4": {
+            "Shortener\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Elllking"
+        }
+    ],
+    "require": {}
+}
