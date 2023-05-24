@@ -5,6 +5,8 @@ services:
     image: php:7.4-cli
     volumes:
       - ./app:/project
+    ports:
+      - '8001:8000'
     command: 'tail -f /dev/null'
 
   db:
