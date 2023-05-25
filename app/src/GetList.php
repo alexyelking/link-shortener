@@ -22,7 +22,6 @@ class GetList {
         $result = $statement->get_result();
 
         if ($result->num_rows > 0) {
-            // output data of each row
             while($row = $result->fetch_assoc()) {
                 echo "id: " . $row["id"]. " - Source: " . $row["source"] . " - Short: " . $row["short"]. "\n";
             }
