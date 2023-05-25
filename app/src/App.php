@@ -2,20 +2,26 @@
 
 namespace Shortener;
 
-class App {
+class App
+{
     public function run()
     {
-        $db = new Db();
+        $db = new Database();
         $conn = $db->connect();
-        switch(true) {
+        switch (true) {
+
             case $_SERVER['PATH_INFO'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $getListHandler = new GetList($conn);
+                $getListHandler = new GetLists($conn);
                 $getListHandler->handle();
                 break;
-//            case $_SERVER['PATH_INFO'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'POST':
-//                $shortLinkHandler = new ShortLink($conn);
-//                $shortLinkHandler->handle();
-//                break;
+            case $_SERVER['PATH_INFO'] == '/link/create' && $_SERVER['REQUEST_METHOD'] == 'GET':
+                $shortLinkHandler = new CreateShortLink($conn);
+                $shortLinkHandler->handle();
+                break;
+            case  strlen($_SERVER['PATH_INFO']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':
+                $tryRedirect = new TryRedirect($conn);
+                $tryRedirect->handle();
+                break;
             default:
                 $notFoundHandler = new NotFound();
                 $notFoundHandler->handle();

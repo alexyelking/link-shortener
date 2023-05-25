@@ -4,8 +4,10 @@ namespace Shortener;
 
 use mysqli;
 
-class Db {
-    public function connect(): mysqli{
+class Database
+{
+    public function connect(): mysqli
+    {
         $servername = "db";
         $username = "root";
         $password = "root";
