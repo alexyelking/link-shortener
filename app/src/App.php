@@ -9,12 +9,11 @@ class App
         $db = new Database();
         $conn = $db->connect();
         switch (true) {
-
             case $_SERVER['PATH_INFO'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
                 $getListHandler = new GetLists($conn);
                 $getListHandler->handle();
                 break;
-            case $_SERVER['PATH_INFO'] == '/link/create' && $_SERVER['REQUEST_METHOD'] == 'GET':
+            case $_SERVER['PATH_INFO'] == '/link/create' && $_SERVER['REQUEST_METHOD'] == 'POST':
                 $shortLinkHandler = new CreateShortLink($conn);
                 $shortLinkHandler->handle();
                 break;

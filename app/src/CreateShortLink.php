@@ -15,8 +15,8 @@ class CreateShortLink
 
     public function handle()
     {
-        if (!empty($_GET['source'])) {
-            $source = $_GET['source'];
+        if (!empty($_POST['source'])) {
+            $source = $_POST['source'];
 
             $uniq = uniqid();
             $short = "";
@@ -38,6 +38,18 @@ class CreateShortLink
             $statement = $this->db->prepare($sql);
             $statement->bind_param("ss", $source, $short);
             $statement->execute();
-        } else echo "Source link is required";
+
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                "message" => "Create successful",
+                "data" => [
+                    "short" => $short,
+                    "link" => 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short
+                ]
+            ]);
+        } else {
+            http_response_code(422);
+            echo "Source link is required";
+        }
     }
 }
