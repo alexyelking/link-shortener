@@ -19,7 +19,7 @@ class App
                 $shortLinkHandler->handle();
                 break;
             case  strlen($_SERVER['PATH_INFO']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $tryRedirect = new TryRedirect($conn);
+                $tryRedirect = new Redirect($conn);
                 $tryRedirect->handle();
                 break;
             default:

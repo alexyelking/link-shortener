@@ -4,7 +4,7 @@ namespace Shortener;
 
 use mysqli;
 
-class TryRedirect
+class Redirect
 {
     private mysqli $db;
 
