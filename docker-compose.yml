@@ -3,6 +3,9 @@ version: '3.7'
 services:
   web:
     image: php:7.4-cli
+    environment:
+      TG_TOKEN: ${TG_TOKEN}
+      TG_CHAT_ID: ${TG_CHAT_ID}
     volumes:
       - ./app:/project
     ports:
@@ -21,3 +24,6 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7-alpine
