@@ -10,5 +10,7 @@
             "name": "Elllking"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-mysqli": "*"
+    }
 }
