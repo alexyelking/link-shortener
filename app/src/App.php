@@ -28,15 +28,4 @@ class App
 
         $conn->close();
     }
-    public function faucet()
-    {
-        $db = new Database();
-        $conn = $db->connect();
-        echo 'Chlen';
-        $conn->close();
-
-    }
 }
-
-$HUI = new App();
-$HUI->faucet();

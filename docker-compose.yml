@@ -13,6 +13,13 @@ services:
     working_dir: /project
     command: ['bash', '-c', 'docker-php-ext-install mysqli && php -S 0.0.0.0:8000 && tail -f /dev/null']
 
+  composer:
+    image: composer:latest
+    volumes:
+      - ./app:/project
+    working_dir: /project
+    command: composer install --ignore-platform-reqs --no-scripts
+
   db:
     image: mysql
     restart: 'no'
