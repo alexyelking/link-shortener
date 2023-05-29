@@ -1,12 +1,13 @@
-CREATE DATABASE shortener_db
-CREATE TABLE shortener_db.links (
+DROP DATABASE shortener_db;
+CREATE DATABASE shortener_db;
+GRANT ALL PRIVILEGES ON * . * TO 'root'@'localhost';
+USE shortener_db;
+CREATE TABLE links (
 	id BIGINT UNSIGNED auto_increment NOT NULL,
 	source MEDIUMTEXT NOT NULL,
 	short MEDIUMTEXT NOT NULL,
-	created_at TIMESTAMP NOT NULL,
+	created_at TIMESTAMP DEFAULT NOW() NOT NULL,
 	CONSTRAINT links_PK PRIMARY KEY (id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
-
