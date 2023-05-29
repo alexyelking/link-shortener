@@ -15,7 +15,7 @@ class Redirect
 
     public function handle()
     {
-        $short = mb_substr($_SERVER['PATH_INFO'], 1);
+        $short = mb_substr($_SERVER['REDIRECT_URL'], 1);
         $sql = "SELECT source FROM links WHERE short=?";
         $statement = $this->db->prepare($sql);
         $statement->bind_param("s", $short);
