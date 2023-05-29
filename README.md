@@ -5,6 +5,7 @@
 
 git config core.filemode false
 
+docker-compose up
+
 sudo chmod -R 777 *
 
- 
