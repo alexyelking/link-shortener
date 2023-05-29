@@ -1,0 +1,12 @@
+CREATE DATABASE shortener_db
+CREATE TABLE shortener_db.links (
+	id BIGINT UNSIGNED auto_increment NOT NULL,
+	source MEDIUMTEXT NOT NULL,
+	short MEDIUMTEXT NOT NULL,
+	created_at TIMESTAMP NOT NULL,
+	CONSTRAINT links_PK PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+

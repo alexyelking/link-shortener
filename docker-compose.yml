@@ -18,6 +18,7 @@ services:
     restart: 'no'
     volumes:
       - ./db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/00-test-db.sql
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=shortener_db
