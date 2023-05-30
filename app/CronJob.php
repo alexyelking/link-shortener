@@ -10,7 +10,7 @@ class CronJob
     {
         $db = new Database();
         $conn = $db->connect();
-        $sql = "DELETE FROM links WHERE created_at < DATE_SUB(NOW(), INTERVAL 2 MINUTE)";
+        $sql = "DELETE FROM links WHERE created_at < DATE_SUB(NOW(), INTERVAL 1 DAY)";
         if ($conn->query($sql) === TRUE) {
             echo "Record deleted successfully\n";
         } else {

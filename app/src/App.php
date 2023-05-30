@@ -7,7 +7,6 @@ class App
     {
         $db = new Database();
         $conn = $db->connect();
-//        var_dump($_SERVER);
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
                 $getListHandler = new GetLists($conn);

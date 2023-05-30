@@ -3,6 +3,7 @@
 namespace Shortener;
 
 use mysqli;
+use Redis;
 
 class CreateShortLink
 {
@@ -15,41 +16,64 @@ class CreateShortLink
 
     public function handle()
     {
+        $ip = $_SERVER['SERVER_ADDR'];
+        $limit = 10;
         if (!empty($_POST['source'])) {
-            $source = $_POST['source'];
+            $redis = new Redis();
+            $redis->connect('redis', 6379);
+            $redis->select(1);
+            if ((int)$redis->get($ip) < $limit) {
+                $source = $_POST['source'];
 
-            $uniq = uniqid();
-            $short = "";
+                $short = $this->getShort();
 
-            $supplement = time();
-            $supplementValue = "";
+                $sql = "INSERT INTO links (source, short) VALUES (?, ?)";
+                $statement = $this->db->prepare($sql);
+                $statement->bind_param("ss", $source, $short);
+                $statement->execute();
 
-            for ($i = 0; $i < 4; $i++) {
+                $redis->incr($ip);
+                $redis->expire($ip, 60);
 
-                $short .= $uniq[rand(0, 12)];
+                $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
 
-                $supVal = $supplement % (rand(1, 10));
-                $supplementValue .= $supVal;
+                $tg = new TelegramNotification();
+                $tg->send("There was a reduction of some link. Source link: $source => Short link: $link");
+
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode([
+                    "message" => "Create successful",
+                    "data" => [
+                        "short" => $short,
+                        "link" => $link
+                    ]
+                ]);
+            } else {
+                http_response_code(429);
+                echo "Too many requests";
             }
 
-            $short .= $supplementValue;
-
-            $sql = "INSERT INTO links (source, short) VALUES (?, ?)";
-            $statement = $this->db->prepare($sql);
-            $statement->bind_param("ss", $source, $short);
-            $statement->execute();
-
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode([
-                "message" => "Create successful",
-                "data" => [
-                    "short" => $short,
-                    "link" => 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short
-                ]
-            ]);
         } else {
             http_response_code(422);
             echo "Source link is required";
         }
+    }
+
+    public function getShort(): string
+    {
+        $uniqValue = uniqid();
+        $uniqString = "";
+
+        $timeValue = time();
+
+        $supplementString = "";
+
+        for ($i = 0; $i < 4; $i++) {
+            $uniqString .= $uniqValue[rand(0, 12)];
+            $supplementValue = $timeValue % (rand(1, 10));
+            $supplementString .= $supplementValue;
+        }
+        $uniqString .= $supplementString;
+        return $uniqString;
     }
 }
