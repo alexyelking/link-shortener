@@ -2,7 +2,7 @@
 ### Deployment and local run:
 
 ```
-cp .env.example -> .env
+cp .env.example .env
 ```
 
 #### In .env:
@@ -16,8 +16,6 @@ git config core.filemode false
 ```
 docker-compose up --build
 ```
-
-On your computer (not in docker!)
 
 ```
 sudo chmod -R 777 *
