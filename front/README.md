@@ -1,11 +1,21 @@
-## Pet application "Link Shortener"
-
-### Docker is required to run the server and client parts of the application
-
+## Front
 <hr>
 
-### Back - PHP, MySQLi, Redis, Telegram API, Cronjob
+### The algorithm for running
 
-<hr>
+1. Duplicate «.env.example» and rename to «.env»
+```
+cp .env .env.example 
+```
 
-### Front - HTML, CSS, JS
+2. Specify a free port to follow the link, or leave the one that has already been installed
+
+3. Launch Docker-compose
+```
+docker-compose up
+```
+
+4. Go through 0.0.0.0:**PORT** in your browser (Default PORT is 8080)
+
+### Ready to start
+
