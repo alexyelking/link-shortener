@@ -8,8 +8,8 @@
 cp .env.example .env
 ```
 
-2. In «.env»
-2.1. Specify your ports to the database and to the apache server.
+2. In «.env»<br>
+2.1. Specify your ports to the database and to the apache server.<br>
 2.2. Specify your telegram bot token and your chat ID for notification.
 
 3. Git config core file mode must be false
