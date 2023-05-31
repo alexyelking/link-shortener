@@ -8,7 +8,7 @@
 cp .env.example .env
 ```
 
-2. In .env
+2. In «.env»
 2.1. Specify your ports to the database and to the apache server.
 2.2. Specify your telegram bot token and your chat ID for notification.
 
@@ -28,3 +28,5 @@ docker-compose up --build
 ```
 sudo chmod -R 777 *
 ```
+
+### Ready to start
