@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Application</title>
+    <link rel="shortcut icon" href="#">
+    <link href="https://cdn.muicss.com/mui-latest/css/mui.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.muicss.com/mui-latest/js/mui.min.js"></script>
+</head>
+<body>
+<header class="mui-appbar mui--z1">
+    <div class="mui-container">
+        <table>
+            <tr class="mui--appbar-height">
+                <td class="mui--text-title">Link-shortener</td>
+            </tr>
+        </table>
+    </div>
+</header>
+<div id="content-wrapper" class="mui--text-center">
+    <div class="mui--appbar-height"></div>
+    <br>
+    <br>
+    <div class="mui--text-display3">Insert the link in the field below</div>
+    <br>
+    <form class="mui-form" id="form" style="width: 50%; display: block; margin-inline: auto">
+        <div class="mui-textfield mui-textfield--float-label">
+            <input type="url" id="link-input" style="text-align: center">
+            <label>Your link:</label>
+        </div>
+        <button
+                type="submit"
+                class="mui-btn mui-btn--raised mui-btn--primary"
+                id="submit-btn"
+        >
+            Get your short link
+        </button>
+    </form>
+</div>
+<footer>
+    <div class="mui-container mui--text-center">
+        Made with love by <a href="https://github.com/alexyelking">AlexYelkinG</a>
+    </div>
+</footer>
+</body>
+</html>
