@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  web:
+    image: node:20-alpine
+    ports:
+      - ${WEB_PORT}:3000
+    volumes:
+      - ./app:/project
+    command: tail -f /dev/null

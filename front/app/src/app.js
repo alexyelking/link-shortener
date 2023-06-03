@@ -32,5 +32,3 @@ function createModal(shortLink) {
     `
     mui.overlay('on', modal)
 }
-
-//
