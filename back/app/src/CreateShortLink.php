@@ -38,7 +38,7 @@ class CreateShortLink
                 $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
 
                 $tg = new TelegramNotification();
-                $tg->send('There was a reduction of some link.' . "%0A" . 'Source link: ' . (string)$source . "%0A" . 'Short link: ' . $link);
+                $tg->send('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $link);
 
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode([
