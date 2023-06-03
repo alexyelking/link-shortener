@@ -89,3 +89,12 @@ footer {
     padding-bottom: 3rem;
     text-align: center;
 }
+
+/*.modal .modal-content a.text:active, !* активная/посещенная ссылка *!*/
+/*.modal .modal-content a.text:hover,  !* при наведении *!*/
+/*.modal .modal-content a.text,*/
+.modal .modal-content a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 24px;
+}
