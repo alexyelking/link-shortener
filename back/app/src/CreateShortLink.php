@@ -5,18 +5,18 @@ namespace Shortener;
 use mysqli;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Redis;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use Shortener\Repositories\LinkRepository;
 
 class CreateShortLink
 {
-    private mysqli $db;
+    private LinkRepository $links;
     private Redis $redis;
     private AMQPChannel $channel;
 
-    public function __construct(mysqli $db, Redis $redis, AMQPChannel $channel)
+    public function __construct(LinkRepository $links, Redis $redis, AMQPChannel $channel)
     {
-        $this->db = $db;
+        $this->links = $links;
         $this->redis = $redis;
         $this->channel = $channel;
     }
@@ -29,29 +29,22 @@ class CreateShortLink
             if ((int)$this->redis->get($ip) < $limit) {
                 $source = $_POST['source'];
 
-                $short = $this->getShort();
-
-                $sql = "INSERT INTO links (source, short) VALUES (?, ?)";
-                $statement = $this->db->prepare($sql);
-                $statement->bind_param("ss", $source, $short);
-                $statement->execute();
+                $link = $this->links->create($source);
 
                 $this->redis->incr($ip);
                 $this->redis->expire($ip, 60);
 
-                $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
+                $shortUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $link->short;
 
-
-                $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $link);
+                $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $shortUrl);
                 $this->channel->basic_publish($msg, '', 'cat-queue');
-
 
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode([
                     "message" => "Create successful",
                     "data" => [
-                        "short" => $short,
-                        "link" => $link
+                        "short" => $link->short,
+                        "link" => $shortUrl
                     ]
                 ]);
             } else {
@@ -65,21 +58,5 @@ class CreateShortLink
         }
     }
 
-    public function getShort(): string
-    {
-        $uniqValue = uniqid();
-        $uniqString = "";
 
-        $timeValue = time();
-
-        $supplementString = "";
-
-        for ($i = 0; $i < 4; $i++) {
-            $uniqString .= $uniqValue[rand(0, 12)];
-            $supplementValue = $timeValue % (rand(1, 10));
-            $supplementString .= $supplementValue;
-        }
-        $uniqString .= $supplementString;
-        return $uniqString;
-    }
 }

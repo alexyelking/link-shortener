@@ -4,6 +4,7 @@ namespace Shortener;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Redis;
+use Shortener\Repositories\LinkRepository;
 
 class App
 {
@@ -11,6 +12,8 @@ class App
     {
         $database = new Database();
         $mysql = $database->connect();
+
+        $linksRepository = new LinkRepository($mysql);
 
         $redis = new Redis();
         $redis->connect('redis', 6379);
@@ -30,7 +33,7 @@ class App
                 header("Access-Control-Allow-Methods: POST");
                 header("Access-Control-Request-Method: POST");
                 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
-                $shortLinkHandler = new CreateShortLink($mysql, $redis, $AMQPChannel);
+                $shortLinkHandler = new CreateShortLink($linksRepository, $redis, $AMQPChannel);
                 $shortLinkHandler->handle();
                 break;
             case strlen($_SERVER['REDIRECT_URL']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':

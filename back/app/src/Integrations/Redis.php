@@ -1,6 +1,6 @@
 <?php
 
-namespace Shortener\Integrations;
+namespace Shortener\Repositories\Integrations;
 
 class Redis
 {
