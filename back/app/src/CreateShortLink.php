@@ -3,19 +3,22 @@
 namespace Shortener;
 
 use mysqli;
+use PhpAmqpLib\Channel\AMQPChannel;
 use Redis;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class CreateShortLink
 {
-    private Redis $redis;
     private mysqli $db;
+    private Redis $redis;
+    private AMQPChannel $channel;
 
-    public function __construct(mysqli $db, Redis $redis)
+    public function __construct(mysqli $db, Redis $redis, AMQPChannel $channel)
     {
         $this->db = $db;
         $this->redis = $redis;
+        $this->channel = $channel;
     }
 
     public function handle()
@@ -38,13 +41,10 @@ class CreateShortLink
 
                 $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
 
-                $connection = new AMQPStreamConnection('rabbit', 5672, 'guest', 'guest');
-                $channel = $connection->channel();
-                $channel->queue_declare('cat-queue', false, true, false, false);
+
                 $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $link);
-                $channel->basic_publish($msg, '', 'cat-queue');
-                $channel->close();
-                $connection->close();
+                $this->channel->basic_publish($msg, '', 'cat-queue');
+
 
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode([
