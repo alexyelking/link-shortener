@@ -10,6 +10,8 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Consumer
 {
     public function handle(AMQPMessage $msg){
+        $tg = new TelegramNotification();
+        $tg->send($msg->getBody());
         echo $msg->getBody();
         echo "\n";
     }

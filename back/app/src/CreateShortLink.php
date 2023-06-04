@@ -4,6 +4,8 @@ namespace Shortener;
 
 use mysqli;
 use Redis;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class CreateShortLink
 {
@@ -37,8 +39,13 @@ class CreateShortLink
 
                 $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
 
-                $tg = new TelegramNotification();
-                $tg->send('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $link);
+                $connection = new AMQPStreamConnection('rabbit', 5672, 'guest', 'guest');
+                $channel = $connection->channel();
+                $channel->queue_declare('cat-queue', false, true, false, false);
+                $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $link);
+                $channel->basic_publish($msg, '', 'cat-queue');
+                $channel->close();
+                $connection->close();
 
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode([
