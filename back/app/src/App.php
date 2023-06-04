@@ -1,12 +1,20 @@
 <?php
 
 namespace Shortener;
+
+use Redis;
+
 class App
 {
     public function run()
     {
         $db = new Database();
         $conn = $db->connect();
+
+        $redis = new Redis();
+        $redis->connect('redis', 6379);
+        $redis->select(1);
+
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
                 $getListHandler = new GetLists($conn);
@@ -17,7 +25,7 @@ class App
                 header("Access-Control-Allow-Methods: POST");
                 header("Access-Control-Request-Method: POST");
                 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
-                $shortLinkHandler = new CreateShortLink($conn);
+                $shortLinkHandler = new CreateShortLink($conn, $redis);
                 $shortLinkHandler->handle();
                 break;
             case strlen($_SERVER['REDIRECT_URL']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':

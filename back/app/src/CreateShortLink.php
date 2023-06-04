@@ -9,11 +9,13 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class CreateShortLink
 {
+    private Redis $redis;
     private mysqli $db;
 
-    public function __construct(mysqli $db)
+    public function __construct(mysqli $db, Redis $redis)
     {
         $this->db = $db;
+        $this->redis = $redis;
     }
 
     public function handle()
@@ -21,10 +23,7 @@ class CreateShortLink
         $ip = $_SERVER['SERVER_ADDR'];
         $limit = 10;
         if (!empty($_POST['source'])) {
-            $redis = new Redis();
-            $redis->connect('redis', 6379);
-            $redis->select(1);
-            if ((int)$redis->get($ip) < $limit) {
+            if ((int)$this->redis->get($ip) < $limit) {
                 $source = $_POST['source'];
 
                 $short = $this->getShort();
@@ -34,8 +33,8 @@ class CreateShortLink
                 $statement->bind_param("ss", $source, $short);
                 $statement->execute();
 
-                $redis->incr($ip);
-                $redis->expire($ip, 60);
+                $this->redis->incr($ip);
+                $this->redis->expire($ip, 60);
 
                 $link = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $short;
 

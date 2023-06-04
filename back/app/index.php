@@ -2,5 +2,5 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$app = new \Shortener\App();
+$app = new \Shortener\Integrations\App();
 $app->run();
