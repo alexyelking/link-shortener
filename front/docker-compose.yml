@@ -8,3 +8,4 @@ services:
     volumes:
       - ./app:/project
     command: tail -f /dev/null
+    working_dir: /project
