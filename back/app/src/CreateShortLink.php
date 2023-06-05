@@ -2,7 +2,6 @@
 
 namespace Shortener;
 
-use mysqli;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Redis;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -57,6 +56,4 @@ class CreateShortLink
             echo "Source link is required";
         }
     }
-
-
 }
