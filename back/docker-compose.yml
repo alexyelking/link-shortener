@@ -18,14 +18,14 @@ services:
     volumes:
       - ./app:/var/www/html
     working_dir: /var/www/html
-    command: tail -f /dev/null
+    command: php /var/www/html/cron.php
 
   composer:
     image: composer:latest
     volumes:
       - ./app:/project
     working_dir: /project
-    command: composer install --ignore-platform-reqs --no-scripts && php /var/www/html/consumer.php && tail -f /dev/null
+    command: composer install --ignore-platform-reqs --no-scripts
 
   db:
     image: mysql
