@@ -2,7 +2,7 @@
 
 namespace Shortener\Integrations;
 
-class TelegramNotification
+class Telegram
 {
     private $token;
     private $host = 'https://api.telegram.org';

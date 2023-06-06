@@ -4,7 +4,7 @@ namespace Shortener\Commands;
 
 use Shortener\Infrastructure\Database;
 
-class CronJobCommand
+class ClearExpiredLinks
 {
     public function run()
     {

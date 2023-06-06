@@ -4,8 +4,8 @@ namespace Shortener;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Redis;
-use Shortener\Controllers\CreateShortLink;
-use Shortener\Controllers\GetLists;
+use Shortener\Controllers\CreateLink;
+use Shortener\Controllers\GetLinks;
 use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
 use Shortener\Infrastructure\Database;
@@ -30,7 +30,7 @@ class App
 
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $getListHandler = new GetLists($mysql);
+                $getListHandler = new GetLinks($mysql);
                 $getListHandler->handle();
                 break;
             case $_SERVER['REDIRECT_URL'] == '/link/create' && $_SERVER['REQUEST_METHOD'] == 'POST':
@@ -38,7 +38,7 @@ class App
                 header("Access-Control-Allow-Methods: POST");
                 header("Access-Control-Request-Method: POST");
                 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
-                $shortLinkHandler = new CreateShortLink($linksRepository, $redis, $AMQPChannel);
+                $shortLinkHandler = new CreateLink($linksRepository, $redis, $AMQPChannel);
                 $shortLinkHandler->handle();
                 break;
             case strlen($_SERVER['REDIRECT_URL']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':

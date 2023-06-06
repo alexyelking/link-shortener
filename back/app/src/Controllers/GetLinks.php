@@ -4,7 +4,7 @@ namespace Shortener\Controllers;
 
 use mysqli;
 
-class GetLists
+class GetLinks
 {
     private mysqli $db;
 

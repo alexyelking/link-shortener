@@ -7,7 +7,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Shortener\Repositories\LinkRepository;
 
-class CreateShortLink
+class CreateLink
 {
     private LinkRepository $links;
     private Redis $redis;
