@@ -2,5 +2,5 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$app = new \Shortener\CronJobCommand();
+$app = new \Shortener\Commands\CronJobCommand();
 $app->run();

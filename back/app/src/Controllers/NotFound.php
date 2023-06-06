@@ -1,6 +1,6 @@
 <?php
 
-namespace Shortener;
+namespace Shortener\Controllers;
 
 class NotFound
 {

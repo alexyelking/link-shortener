@@ -1,6 +1,6 @@
 <?php
 
-namespace Shortener;
+namespace Shortener\Infrastructure;
 
 use mysqli;
 

@@ -1,9 +1,10 @@
 <?php
 
-namespace Shortener;
+namespace Shortener\Consumers;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use Shortener\Integrations\TelegramNotification;
 
 class TGConsumer
 {
@@ -25,8 +26,7 @@ class TGConsumer
         }
     }
 
-    public
-    function handle(AMQPMessage $msg)
+    public function handle(AMQPMessage $msg)
     {
         $tg = new TelegramNotification();
         $tg->send($msg->getBody());

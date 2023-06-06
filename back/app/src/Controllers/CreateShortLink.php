@@ -1,10 +1,10 @@
 <?php
 
-namespace Shortener;
+namespace Shortener\Controllers;
 
-use PhpAmqpLib\Channel\AMQPChannel;
 use Redis;
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Channel\AMQPChannel;
 use Shortener\Repositories\LinkRepository;
 
 class CreateShortLink

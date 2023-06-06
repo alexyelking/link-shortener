@@ -1,6 +1,8 @@
 <?php
 
-namespace Shortener;
+namespace Shortener\Commands;
+
+use Shortener\Infrastructure\Database;
 
 class CronJobCommand
 {

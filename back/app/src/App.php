@@ -4,6 +4,11 @@ namespace Shortener;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Redis;
+use Shortener\Controllers\CreateShortLink;
+use Shortener\Controllers\GetLists;
+use Shortener\Controllers\NotFound;
+use Shortener\Controllers\Redirect;
+use Shortener\Infrastructure\Database;
 use Shortener\Repositories\LinkRepository;
 
 class App
