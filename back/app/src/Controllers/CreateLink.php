@@ -12,12 +12,17 @@ class CreateLink
     private LinkRepository $links;
     private Redis $redis;
     private AMQPChannel $channel;
+    private $limitCount;
+    private $limitTime;
+
 
     public function __construct(LinkRepository $links, Redis $redis, AMQPChannel $channel)
     {
         $this->links = $links;
         $this->redis = $redis;
         $this->channel = $channel;
+        $this->limitCount = $_ENV['REDIS_LIMIT_COUNT'];
+        $this->limitTime = $_ENV['REDIS_LIMIT_TIME'];
     }
 
     public function handle()
@@ -29,15 +34,14 @@ class CreateLink
         }
 
         $ip = $_SERVER['SERVER_ADDR'];
-        $limit = 10;
 
-        if ((int)$this->redis->get($ip) >= $limit) {
+        if ((int)$this->redis->get($ip) >= $this->limitCount) {
             http_response_code(429);
             echo "Too many requests";
             return;
         } else {
             $this->redis->incr($ip);
-            $this->redis->expire($ip, 60);
+            $this->redis->expire($ip, $this->limitTime);
         }
 
         $source = $_POST['source'];

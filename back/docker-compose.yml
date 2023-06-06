@@ -6,6 +6,16 @@ services:
     environment:
       TG_TOKEN: ${TG_TOKEN}
       TG_CHAT_ID: ${TG_CHAT_ID}
+      REDIS_LIMIT_COUNT: ${REDIS_LIMIT_COUNT}
+      REDIS_LIMIT_TIME: ${REDIS_LIMIT_TIME}
+      DB_SERVER: ${DB_SERVER}
+      DB_USER_NAME: ${DB_USER_NAME}
+      DB_USER_PASSWORD: ${DB_USER_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      RABBIT_HOST: ${RABBIT_HOST}
+      RABBIT_PORT: ${RABBIT_PORT}
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_USER_PASSWORD: ${RABBIT_USER_PASSWORD}
     volumes:
       - ./app:/var/www/html
       - ./web/site.conf:/etc/apache2/sites-available/000-default.conf
