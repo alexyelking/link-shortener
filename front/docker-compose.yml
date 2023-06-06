@@ -7,5 +7,5 @@ services:
       - ${WEB_PORT}:3000
     volumes:
       - ./app:/project
-    command: tail -f /dev/null
+    command: npm install && tail -f /dev/null
     working_dir: /project

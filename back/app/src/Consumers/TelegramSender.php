@@ -15,7 +15,7 @@ class TelegramSender
             $consumer->handle($msg);
         };
 
-        $connection = new AMQPStreamConnection('rabbit', 5672, 'guest', 'guest');
+        $connection = new AMQPStreamConnection($_ENV['RABBIT_HOST'], $_ENV['RABBIT_PORT'], $_ENV['RABBIT_USER'], $_ENV['RABBIT_USER_PASSWORD']);
         $channel = $connection->channel();
 
         $channel->queue_declare('cat-queue', false, true, false, false);

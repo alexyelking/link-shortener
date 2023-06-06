@@ -8,10 +8,10 @@ class Database
 {
     public function connect(): mysqli
     {
-        $servername = "db";
-        $username = "root";
-        $password = "root";
-        $dbname = "shortener_db";
+        $servername = $_ENV['DB_SERVER'];
+        $username = $_ENV['DB_USER_NAME'];
+        $password = $_ENV['DB_USER_PASSWORD'];
+        $dbname = $_ENV['DB_NAME'];
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
