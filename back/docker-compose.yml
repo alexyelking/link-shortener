@@ -25,7 +25,8 @@ services:
     working_dir: /var/www/html
 
   consumer:
-    image: php:7.4-cli
+    build: ./consumer
+    restart: always
     volumes:
       - ./app:/project
     working_dir: /project
@@ -36,7 +37,6 @@ services:
       AMQP_PORT: ${AMQP_PORT}
       AMQP_USER: ${AMQP_USER}
       AMQP_PASSWORD: ${AMQP_PASSWORD}
-    command: ['bash', '-c', 'docker-php-ext-install sockets && /usr/local/bin/php consumer.php']
 
   composer:
     image: composer:latest
