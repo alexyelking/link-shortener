@@ -15,10 +15,10 @@ class TelegramSender
 
     public function __construct()
     {
-        $this->host = $_ENV['RABBIT_HOST'];
-        $this->port = $_ENV['RABBIT_PORT'];
-        $this->user = $_ENV['RABBIT_USER'];
-        $this->password = $_ENV['RABBIT_USER_PASSWORD'];
+        $this->host = $_ENV['AMQP_HOST'];
+        $this->port = $_ENV['AMQP_PORT'];
+        $this->user = $_ENV['AMQP_USER'];
+        $this->password = $_ENV['AMQP_PASSWORD'];
     }
 
     public function run()

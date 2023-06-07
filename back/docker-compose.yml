@@ -3,32 +3,43 @@ version: '3.7'
 services:
   web:
     build: ./web
+    restart: always
     environment:
-      TG_TOKEN: ${TG_TOKEN}
-      TG_CHAT_ID: ${TG_CHAT_ID}
       REDIS_LIMIT_COUNT: ${REDIS_LIMIT_COUNT}
       REDIS_LIMIT_TIME: ${REDIS_LIMIT_TIME}
       DB_SERVER: ${DB_SERVER}
       DB_USER_NAME: ${DB_USER_NAME}
       DB_USER_PASSWORD: ${DB_USER_PASSWORD}
       DB_NAME: ${DB_NAME}
-      RABBIT_HOST: ${RABBIT_HOST}
-      RABBIT_PORT: ${RABBIT_PORT}
-      RABBIT_USER: ${RABBIT_USER}
-      RABBIT_USER_PASSWORD: ${RABBIT_USER_PASSWORD}
+      TG_TOKEN: ${TG_TOKEN}
+      TG_CHAT_ID: ${TG_CHAT_ID}
+      AMQP_HOST: ${AMQP_HOST}
+      AMQP_PORT: ${AMQP_PORT}
+      AMQP_USER: ${AMQP_USER}
+      AMQP_PASSWORD: ${AMQP_PASSWORD}
     volumes:
       - ./app:/var/www/html
       - ./web/site.conf:/etc/apache2/sites-available/000-default.conf
     ports:
       - ${APACHE_PORT}:80
     working_dir: /var/www/html
+#    command: ['bash', '-c', 'php consumer.php']
+
 
   consumer:
     image: php:7.4-cli
     volumes:
-      - ./app:/var/www/html
-    working_dir: /var/www/html
-    command: php /var/www/html/cron.php
+      - ./app:/project
+    working_dir: /project
+    environment:
+      TG_TOKEN: ${TG_TOKEN}
+      TG_CHAT_ID: ${TG_CHAT_ID}
+      AMQP_HOST: ${AMQP_HOST}
+      AMQP_PORT: ${AMQP_PORT}
+      AMQP_USER: ${AMQP_USER}
+      AMQP_PASSWORD: ${AMQP_PASSWORD}
+    command: ['bash', '-c', 'docker-php-ext-install sockets && /usr/local/bin/php consumer.php']
+#    command: ['bash', '-c', 'docker-php-ext-install sockets && tail -f /dev/null']
 
   composer:
     image: composer:latest
