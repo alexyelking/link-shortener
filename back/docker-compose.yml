@@ -23,8 +23,6 @@ services:
     ports:
       - ${APACHE_PORT}:80
     working_dir: /var/www/html
-#    command: ['bash', '-c', 'php consumer.php']
-
 
   consumer:
     image: php:7.4-cli
@@ -39,7 +37,6 @@ services:
       AMQP_USER: ${AMQP_USER}
       AMQP_PASSWORD: ${AMQP_PASSWORD}
     command: ['bash', '-c', 'docker-php-ext-install sockets && /usr/local/bin/php consumer.php']
-#    command: ['bash', '-c', 'docker-php-ext-install sockets && tail -f /dev/null']
 
   composer:
     image: composer:latest
