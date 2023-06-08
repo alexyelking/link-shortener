@@ -2,7 +2,6 @@
 
 namespace Shortener;
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Redis;
 use Shortener\Controllers\CreateLink;
 use Shortener\Controllers\GetLinks;
@@ -10,9 +9,16 @@ use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
 use Shortener\Infrastructure\Database;
 use Shortener\Repositories\LinkRepository;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class App
 {
+    public function __construct()
+    {
+        $config = new Config();
+        $config->loadAllConfig();
+    }
+
     public function run()
     {
         $database = new Database();

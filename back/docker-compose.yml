@@ -4,19 +4,6 @@ services:
   web:
     build: ./web
     restart: always
-    environment:
-      REDIS_LIMIT_COUNT: ${REDIS_LIMIT_COUNT}
-      REDIS_LIMIT_TIME: ${REDIS_LIMIT_TIME}
-      DB_SERVER: ${DB_SERVER}
-      DB_USER_NAME: ${DB_USER_NAME}
-      DB_USER_PASSWORD: ${DB_USER_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      TG_TOKEN: ${TG_TOKEN}
-      TG_CHAT_ID: ${TG_CHAT_ID}
-      AMQP_HOST: ${AMQP_HOST}
-      AMQP_PORT: ${AMQP_PORT}
-      AMQP_USER: ${AMQP_USER}
-      AMQP_PASSWORD: ${AMQP_PASSWORD}
     volumes:
       - ./app:/var/www/html
       - ./web/site.conf:/etc/apache2/sites-available/000-default.conf
@@ -62,13 +49,6 @@ services:
     volumes:
       - ./app:/project
     working_dir: /project
-    environment:
-      TG_TOKEN: ${TG_TOKEN}
-      TG_CHAT_ID: ${TG_CHAT_ID}
-      AMQP_HOST: ${AMQP_HOST}
-      AMQP_PORT: ${AMQP_PORT}
-      AMQP_USER: ${AMQP_USER}
-      AMQP_PASSWORD: ${AMQP_PASSWORD}
 
 volumes:
   rabbitmq_store:

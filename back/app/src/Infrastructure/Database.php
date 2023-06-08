@@ -13,10 +13,10 @@ class Database
 
     public function __construct()
     {
-        $this->servername = $_ENV['DB_SERVER']??'db';
-        $this->username = $_ENV['DB_USER_NAME']??'root';
-        $this->password = $_ENV['DB_USER_PASSWORD']??'root';
-        $this->dbname = $_ENV['DB_NAME']??'shortener_db';
+        $this->servername = $_ENV['DB_HOST'];
+        $this->username = $_ENV['DB_USER_NAME'];
+        $this->password = $_ENV['DB_USER_PASSWORD'];
+        $this->dbname = $_ENV['DB_NAME'];
     }
     public function connect(): mysqli
     {
