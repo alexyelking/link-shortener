@@ -9,9 +9,6 @@ class LinkRepository
 {
     private mysqli $db;
 
-    /**
-     * @param mysqli $db
-     */
     public function __construct(mysqli $db)
     {
         $this->db = $db;
@@ -45,6 +42,16 @@ class LinkRepository
         $statement->execute();
 
         return $statement->get_result();
+    }
+
+    public function getLinkByShort(string $short): bool|\mysqli_result
+    {
+        $sql = "SELECT source FROM links WHERE short=?";
+        $statement = $this->db->prepare($sql);
+        $statement->bind_param("s", $short);
+        $statement->execute();
+        $result = $statement->get_result();
+        return $result->fetch_assoc();
     }
 
     public function generateUniqID(): string

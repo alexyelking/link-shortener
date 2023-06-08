@@ -6,8 +6,8 @@ use Redis;
 use Shortener\Controllers\GetLinks;
 use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
-use Shortener\Infrastructure\Database;
 use Shortener\Controllers\CreateLink;
+use Shortener\Infrastructure\Database;
 use Shortener\Repositories\LinkRepository;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -47,7 +47,7 @@ class App
                 $link->getShort();
                 break;
             case strlen($_SERVER['REDIRECT_URL']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $redirect = new Redirect($mysql);
+                $redirect = new Redirect($linksRepository);
                 $redirect->tryRedirect();
                 break;
             default:
