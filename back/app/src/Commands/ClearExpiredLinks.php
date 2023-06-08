@@ -9,8 +9,8 @@ class ClearExpiredLinks
 {
     public function __construct()
     {
-        $config = new Config();
-        $config->loadDatabaseConfig();
+//        $config = new Config();
+//        $config->loadDatabaseConfig();
     }
 
     public function run()

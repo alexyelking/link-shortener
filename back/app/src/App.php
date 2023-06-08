@@ -15,8 +15,8 @@ class App
 {
     public function __construct()
     {
-        $config = new Config();
-        $config->loadAllConfig();
+//        $config = new Config();
+//        $config->loadAllConfig();
     }
 
     public function run()
@@ -27,10 +27,10 @@ class App
         $linksRepository = new LinkRepository($mysql);
 
         $redis = new Redis();
-        $redis->connect('redis', 6379);
-        $redis->select(1);
+        $redis->connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
+        $redis->select($_ENV['REDIS_DATABASE']);
 
-        $AMQPConnection = new AMQPStreamConnection('rabbit', 5672, 'guest', 'guest');
+        $AMQPConnection = new AMQPStreamConnection($_ENV['AMQP_HOST'], $_ENV['AMQP_PORT'], $_ENV['AMQP_USER'], $_ENV['AMQP_PASSWORD']);
         $AMQPChannel = $AMQPConnection->channel();
         $AMQPChannel->queue_declare('cat-queue', false, true, false, false);
 

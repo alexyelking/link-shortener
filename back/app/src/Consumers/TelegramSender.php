@@ -16,9 +16,9 @@ class TelegramSender
 
     public function __construct()
     {
-        $config = new Config();
-        $config->loadAMQPConfig();
-        $config->loadTelegramConfig();
+//        $config = new Config();
+//        $config->loadAMQPConfig();
+//        $config->loadTelegramConfig();
         $this->host = $_ENV['AMQP_HOST'];
         $this->port = $_ENV['AMQP_PORT'];
         $this->user = $_ENV['AMQP_USER'];
@@ -27,10 +27,6 @@ class TelegramSender
 
     public function run()
     {
-        echo $this->host . "\n";
-        echo $this->port . "\n";
-        echo $this->user . "\n";
-        echo $this->password . "\n";
         $consumer = new TelegramSender();
         $callback = function ($msg) use ($consumer) {
             $consumer->handle($msg);

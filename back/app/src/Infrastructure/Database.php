@@ -14,8 +14,8 @@ class Database
     public function __construct()
     {
         $this->servername = $_ENV['DB_HOST'];
-        $this->username = $_ENV['DB_USER_NAME'];
-        $this->password = $_ENV['DB_USER_PASSWORD'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
         $this->dbname = $_ENV['DB_NAME'];
     }
     public function connect(): mysqli
