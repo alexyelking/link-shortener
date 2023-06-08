@@ -22,16 +22,21 @@ class GetLinks
         $statement = $this->db->prepare($sql);
         $statement->bind_param("ii", $limit, $offset);
         $statement->execute();
-        $result = $statement->get_result();
+        $links = $statement->get_result();
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "id: " . $row["id"] . " - Source: " . $row["source"] . " - Short: " . $row["short"] . "\n";
+        header('Content-Type: application/json; charset=utf-8');
+        if ($links->num_rows > 0) {
+            foreach ($links as $link) {
+                $data[] = [
+                    'id' => $link["id"],
+                    'source' => $link["source"],
+                    'short' => 'http://' . $_SERVER['HTTP_HOST'] . '/' . $link["short"]
+                ];
             }
-        }
-        echo json_encode([
-            "message" => "No results found",
-            "data" => []
-        ]);
+            echo json_encode($data);
+        } else
+            echo json_encode([
+                "message" => "No results found",
+            ]);
     }
 }
