@@ -19,16 +19,15 @@ class LinkRepository
         $short = $this->generateUniqID();
 
         $sql = "INSERT INTO links (source, short) VALUES (?, ?)";
+
         $statement = $this->db->prepare($sql);
         $statement->bind_param("ss", $source, $short);
         $statement->execute();
 
-        $id = $statement->insert_id;
-        $statement = $this->db->query("SELECT * FROM links WHERE id=$id LIMIT 1");
-        $link = $statement->fetch_assoc();
+        $link = $this->getLinkByShort($short);
 
         if (empty($link)) {
-            throw new \Exception('Не смог найти запись');
+            throw new \Exception('Link not found');
         }
 
         return new Link($link['id'], $link['source'], $link['short'], $link['created_at']);
@@ -37,6 +36,7 @@ class LinkRepository
     public function getLinks(int $limit, int $offset): bool|\mysqli_result
     {
         $sql = "SELECT * FROM links LIMIT ? OFFSET ?";
+
         $statement = $this->db->prepare($sql);
         $statement->bind_param("ii", $limit, $offset);
         $statement->execute();
@@ -44,13 +44,15 @@ class LinkRepository
         return $statement->get_result();
     }
 
-    public function getLinkByShort(string $short): bool|\mysqli_result
+    public function getLinkByShort(string $short): bool|array|null
     {
-        $sql = "SELECT source FROM links WHERE short=?";
+        $sql = "SELECT * FROM links WHERE short=?";
+
         $statement = $this->db->prepare($sql);
         $statement->bind_param("s", $short);
         $statement->execute();
         $result = $statement->get_result();
+
         return $result->fetch_assoc();
     }
 

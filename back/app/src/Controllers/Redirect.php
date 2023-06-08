@@ -18,10 +18,10 @@ class Redirect
     {
         $short = mb_substr($_SERVER['REDIRECT_URL'], 1);
 
-        $source = $this->links->getLinkByShort($short);
+        $link = $this->links->getLinkByShort($short);
 
-        if (!empty($source['source'])) {
-            header('location: ' . $source['source']);
+        if (!empty($link['source'])) {
+            header('location: ' . $link['source']);
         } else {
             http_response_code(404);
             echo json_encode([

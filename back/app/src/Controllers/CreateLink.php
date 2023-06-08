@@ -55,8 +55,10 @@ class CreateLink
         echo json_encode([
             "message" => "Create successful",
             "data" => [
-                "short" => $link->short,
-                "link" => $shortUrl
+                "id" => $link->id,
+                "source" => $link->source,
+                "short" => $shortUrl,
+                "created_at" => $link->created_at
             ]
         ]);
     }
