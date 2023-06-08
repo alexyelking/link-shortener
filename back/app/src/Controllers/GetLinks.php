@@ -28,8 +28,10 @@ class GetLinks
             while ($row = $result->fetch_assoc()) {
                 echo "id: " . $row["id"] . " - Source: " . $row["source"] . " - Short: " . $row["short"] . "\n";
             }
-        } else {
-            echo "0 results\n";
         }
+        echo json_encode([
+            "message" => "No results found",
+            "data" => []
+        ]);
     }
 }

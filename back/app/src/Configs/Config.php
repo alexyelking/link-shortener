@@ -11,7 +11,7 @@ class Config implements IDatabaseConfig
 
     public function load()
     {
-        //TODO
+        // TODO
     }
 
     public function getHost()

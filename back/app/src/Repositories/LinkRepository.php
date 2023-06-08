@@ -37,6 +37,11 @@ class LinkRepository
         return new Link($link['id'], $link['source'], $link['short'], $link['created_at']);
     }
 
+    public function get()
+    {
+        // TODO
+    }
+
     public function generateUniqID(): string
     {
         $uniqValue = uniqid();
