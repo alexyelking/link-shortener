@@ -13,7 +13,7 @@ class Redirect
         $this->db = $db;
     }
 
-    public function handle()
+    public function tryRedirect(): void
     {
         $short = mb_substr($_SERVER['REDIRECT_URL'], 1);
         $sql = "SELECT source FROM links WHERE short=?";
@@ -25,7 +25,10 @@ class Redirect
         if (!empty($source['source'])) {
             header('location: ' . $source['source']);
         } else {
-            echo "Link Not Found\n";
+            http_response_code(404);
+            echo json_encode([
+                "message" => "Link not found",
+            ]);
         }
     }
 }

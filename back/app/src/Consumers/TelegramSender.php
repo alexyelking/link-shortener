@@ -2,34 +2,30 @@
 
 namespace Shortener\Consumers;
 
-use Shortener\Config;
 use PhpAmqpLib\Message\AMQPMessage;
 use Shortener\Integrations\Telegram;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class TelegramSender
 {
-    private $host;
-    private $port;
-    private $user;
-    private $password;
+    private string $host;
+    private int $port;
+    private string $user;
+    private string $password;
 
     public function __construct()
     {
-//        $config = new Config();
-//        $config->loadAMQPConfig();
-//        $config->loadTelegramConfig();
         $this->host = $_ENV['AMQP_HOST'];
         $this->port = $_ENV['AMQP_PORT'];
         $this->user = $_ENV['AMQP_USER'];
         $this->password = $_ENV['AMQP_PASSWORD'];
     }
 
-    public function run()
+    public function run(): void
     {
         $consumer = new TelegramSender();
         $callback = function ($msg) use ($consumer) {
-            $consumer->handle($msg);
+            $consumer->sendMessage($msg);
         };
 
         $connection = new AMQPStreamConnection($this->host, $this->port, $this->user, $this->password);
@@ -43,11 +39,9 @@ class TelegramSender
         }
     }
 
-    public function handle(AMQPMessage $msg)
+    public function sendMessage(AMQPMessage $message): void
     {
-        $tg = new Telegram();
-        $tg->send($msg->getBody());
-        echo $msg->getBody();
-        echo "\n";
+        $telegram = new Telegram();
+        $telegram->send($message->getBody());
     }
 }

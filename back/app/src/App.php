@@ -3,11 +3,11 @@
 namespace Shortener;
 
 use Redis;
-use Shortener\Controllers\CreateLink;
 use Shortener\Controllers\GetLinks;
 use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
 use Shortener\Infrastructure\Database;
+use Shortener\Controllers\CreateLink;
 use Shortener\Repositories\LinkRepository;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -15,11 +15,14 @@ class App
 {
     public function __construct()
     {
-//        $config = new Config();
-//        $config->loadAllConfig();
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: POST");
+        header("Access-Control-Request-Method: POST");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
+        header('Content-Type: application/json; charset=utf-8');
     }
 
-    public function run()
+    public function run(): void
     {
         $database = new Database();
         $mysql = $database->connect();
@@ -36,30 +39,20 @@ class App
 
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $getListHandler = new GetLinks($mysql);
-                $getListHandler->handle();
+                $getLinks = new GetLinks($linksRepository);
+                $getLinks->getLinks();
                 break;
             case $_SERVER['REDIRECT_URL'] == '/link/create' && $_SERVER['REQUEST_METHOD'] == 'POST':
-                header("Access-Control-Allow-Origin: *");
-                header("Access-Control-Allow-Methods: POST");
-                header("Access-Control-Request-Method: POST");
-                header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
-                $shortLinkHandler = new CreateLink($linksRepository, $redis, $AMQPChannel);
-                $shortLinkHandler->handle();
+                $link = new CreateLink($linksRepository, $redis, $AMQPChannel);
+                $link->getShort();
                 break;
             case strlen($_SERVER['REDIRECT_URL']) == 9 && $_SERVER['REQUEST_METHOD'] == 'GET':
-                $tryRedirect = new Redirect($mysql);
-                $tryRedirect->handle();
-                break;
-            case $_SERVER['REQUEST_METHOD'] == 'OPTIONS':
-                header("Access-Control-Allow-Origin: *");
-                header("Access-Control-Allow-Methods: POST");
-                header("Access-Control-Request-Method: POST");
-                header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin");
+                $redirect = new Redirect($mysql);
+                $redirect->tryRedirect();
                 break;
             default:
-                $notFoundHandler = new NotFound();
-                $notFoundHandler->handle();
+                $notFound = new NotFound();
+                $notFound->throw();
                 break;
         }
 

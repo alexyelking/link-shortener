@@ -4,9 +4,9 @@ namespace Shortener\Integrations;
 
 class Telegram
 {
-    private $token;
-    private $host = 'https://api.telegram.org';
-    private $chat_id;
+    private string $token;
+    private string $host = 'https://api.telegram.org';
+    private string $chat_id;
 
     public function __construct()
     {
@@ -14,7 +14,7 @@ class Telegram
         $this->chat_id = $_ENV['TG_CHAT_ID'];
     }
 
-    public function send(string $message)
+    public function send(string $message): void
     {
         if ($curl = curl_init()) {
             $url = $this->host . '/bot' . $this->token . '/sendMessage?chat_id=' . $this->chat_id . '&text=' . $message;

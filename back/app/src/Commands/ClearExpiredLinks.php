@@ -2,18 +2,11 @@
 
 namespace Shortener\Commands;
 
-use Shortener\Config;
 use Shortener\Infrastructure\Database;
 
 class ClearExpiredLinks
 {
-    public function __construct()
-    {
-//        $config = new Config();
-//        $config->loadDatabaseConfig();
-    }
-
-    public function run()
+    public function run(): void
     {
         $db = new Database();
         $conn = $db->connect();

@@ -12,9 +12,8 @@ class CreateLink
     private LinkRepository $links;
     private Redis $redis;
     private AMQPChannel $channel;
-    private $limitCount;
-    private $limitTime;
-
+    private int $limitCount;
+    private int $limitTime;
 
     public function __construct(LinkRepository $links, Redis $redis, AMQPChannel $channel)
     {
@@ -25,7 +24,7 @@ class CreateLink
         $this->limitTime = $_ENV['REDIS_LIMIT_TIME'];
     }
 
-    public function handle()
+    public function getShort(): void
     {
         if (empty($_POST['source'])) {
             http_response_code(422);
@@ -53,7 +52,6 @@ class CreateLink
         $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $shortUrl);
         $this->channel->basic_publish($msg, '', 'cat-queue');
 
-        header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             "message" => "Create successful",
             "data" => [

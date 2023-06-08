@@ -2,38 +2,37 @@
 
 namespace Shortener\Controllers;
 
-use mysqli;
+use Shortener\Repositories\LinkRepository;
 
 class GetLinks
 {
-    private mysqli $db;
+    private LinkRepository $links;
+    private int $limit;
+    private int $offset;
+    private array $data;
 
-    public function __construct(mysqli $db)
+    public function __construct(LinkRepository $links)
     {
-        $this->db = $db;
+        $this->links = $links;
+        $this->limit = $_GET['limit'] ?? 10;
+        $this->offset = $_GET['offset'] ?? 0;
     }
 
-    public function handle()
+    public function getLinks(): void
     {
-        $limit = empty($_GET['limit']) ? 100 : $_GET['limit'];
-        $offset = empty($_GET['offset']) ? 0 : $_GET['offset'];
+        $links = $this->links->getLinks($this->limit, $this->offset);
 
-        $sql = "SELECT * FROM links LIMIT ? OFFSET ?";
-        $statement = $this->db->prepare($sql);
-        $statement->bind_param("ii", $limit, $offset);
-        $statement->execute();
-        $links = $statement->get_result();
-
-        header('Content-Type: application/json; charset=utf-8');
-        if ($links->num_rows > 0) {
+        if ($links->num_rows) {
             foreach ($links as $link) {
-                $data[] = [
+                $this->data[] = [
                     'id' => $link["id"],
                     'source' => $link["source"],
                     'short' => 'http://' . $_SERVER['HTTP_HOST'] . '/' . $link["short"]
                 ];
             }
-            echo json_encode($data);
+            echo json_encode([
+                "message" => 'Result found',
+                "data" => $this->data]);
         } else
             echo json_encode([
                 "message" => "No results found",

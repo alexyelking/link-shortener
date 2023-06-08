@@ -9,6 +9,7 @@ class Link
     public string $short;
     public string $created_at;
 
+
     /**
      * @param int $id
      * @param string $source
