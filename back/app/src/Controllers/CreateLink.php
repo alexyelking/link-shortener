@@ -7,6 +7,10 @@ use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Shortener\Repositories\LinkRepository;
 
+// It is possible to shorten the link-up to 10 times in 60 seconds
+const REDIS_LIMIT_COUNT = 10;
+const REDIS_LIMIT_TIME = 60;
+
 class CreateLink
 {
     private LinkRepository $links;
@@ -32,7 +36,7 @@ class CreateLink
 
         $ip = $_SERVER['SERVER_ADDR'];
 
-        if ((int)$this->redis->get($ip) >= $_ENV['REDIS_LIMIT_COUNT']) {
+        if ((int)$this->redis->get($ip) >= REDIS_LIMIT_COUNT) {
             http_response_code(429);
             echo json_encode([
                 "message" => "Too many requests",
@@ -40,7 +44,7 @@ class CreateLink
             return;
         } else {
             $this->redis->incr($ip);
-            $this->redis->expire($ip, $_ENV['REDIS_LIMIT_TIME']);
+            $this->redis->expire($ip, REDIS_LIMIT_TIME);
         }
 
         $source = $_POST['source'];

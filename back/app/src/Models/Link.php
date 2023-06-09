@@ -9,13 +9,6 @@ class Link
     public string $short;
     public string $created_at;
 
-
-    /**
-     * @param int $id
-     * @param string $source
-     * @param string $short
-     * @param string $created_at
-     */
     public function __construct(int $id, string $source, string $short, string $created_at)
     {
         $this->id = $id;

@@ -2,6 +2,12 @@
 
 namespace Shortener\Controllers;
 
+use PhpAmqpLib\Message\AMQPMessage;
+use Shortener\Configs\AMQPConfig;
+use Shortener\Configs\Config;
+use Shortener\Configs\DatabaseConfig;
+use Shortener\Configs\RedisConfig;
+use Shortener\Configs\TelegramConfig;
 use Shortener\Repositories\LinkRepository;
 
 class GetLinks
