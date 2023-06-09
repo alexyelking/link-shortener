@@ -3,9 +3,8 @@
 namespace Shortener\Consumers;
 
 use PhpAmqpLib\Message\AMQPMessage;
-use Shortener\Infrastructure\AMQPConnectionReturner;
 use Shortener\Integrations\Telegram;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Shortener\Infrastructure\AMQPConnectionReturner;
 
 class TelegramSender
 {
