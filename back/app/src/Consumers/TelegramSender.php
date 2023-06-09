@@ -3,6 +3,7 @@
 namespace Shortener\Consumers;
 
 use PhpAmqpLib\Message\AMQPMessage;
+use Shortener\Infrastructure\AMQPConnectionReturner;
 use Shortener\Integrations\Telegram;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -14,14 +15,12 @@ class TelegramSender
             $this->sendMessage($msg);
         };
 
-        $connection = new AMQPStreamConnection($_ENV['AMQP_HOST'], $_ENV['AMQP_PORT'], $_ENV['AMQP_USER'], $_ENV['AMQP_PASSWORD']);
-        $channel = $connection->channel();
+        $AMQPConnection = new AMQPConnectionReturner();
+        $AMQPChannel = $AMQPConnection->connect();
+        $AMQPChannel->basic_consume('short-notification-queue', '', false, true, false, false, $callback);
 
-        $channel->queue_declare('short-notification-queue', false, true, false, false);
-        $channel->basic_consume('short-notification-queue', '', false, true, false, false, $callback);
-
-        while ($channel->is_open()) {
-            $channel->wait();
+        while ($AMQPChannel->is_open()) {
+            $AMQPChannel->wait();
         }
     }
 

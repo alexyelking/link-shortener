@@ -19,7 +19,6 @@ class RedisConfig implements ILoadConfig
 
     public function loadConfig(): RedisConnection
     {
-        echo "Загрузка Redis" . PHP_EOL;
         return new RedisConnection($this->host, $this->port, $this->database);
     }
 }

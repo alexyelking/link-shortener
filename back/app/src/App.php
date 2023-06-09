@@ -8,8 +8,12 @@ use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
 use Shortener\Controllers\CreateLink;
 use Shortener\Infrastructure\Database;
+use Shortener\Infrastructure\DatabaseConnectionReturner;
+use Shortener\Infrastructure\RedisConnectionReturner;
 use Shortener\Repositories\LinkRepository;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Shortener\Infrastructure\AMQPConnectionReturner;
+
 
 class App
 {
@@ -24,18 +28,19 @@ class App
 
     public function run(): void
     {
-        $database = new Database();
-        $mysql = $database->connect();
+        // DB connect
+        $databaseConnection = new DatabaseConnectionReturner();
+        $database = $databaseConnection->connect();
 
-        $linksRepository = new LinkRepository($mysql);
+        $linksRepository = new LinkRepository($database);
 
-        $redis = new Redis();
-        $redis->connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
-        $redis->select($_ENV['REDIS_DATABASE']);
+        // Redis connect
+        $redisConnection = new RedisConnectionReturner();
+        $redis = $redisConnection->connect();
 
-        $AMQPConnection = new AMQPStreamConnection($_ENV['AMQP_HOST'], $_ENV['AMQP_PORT'], $_ENV['AMQP_USER'], $_ENV['AMQP_PASSWORD']);
-        $AMQPChannel = $AMQPConnection->channel();
-        $AMQPChannel->queue_declare('short-notification-queue', false, true, false, false);
+        // AMQP connect
+        $AMQPConnection = new AMQPConnectionReturner();
+        $AMQPChannel = $AMQPConnection->connect();
 
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':
@@ -55,12 +60,5 @@ class App
                 $notFound->throw();
                 break;
         }
-
-        $mysql->close();
-
-        $redis->close();
-
-        $AMQPChannel->close();
-        $AMQPConnection->close();
     }
 }

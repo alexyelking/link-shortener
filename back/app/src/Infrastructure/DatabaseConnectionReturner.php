@@ -6,7 +6,7 @@ use mysqli;
 use Shortener\Configs\Config;
 use Shortener\Configs\DatabaseConfig;
 
-class Database
+class DatabaseConnectionReturner
 {
     private string $host;
     private string $username;
