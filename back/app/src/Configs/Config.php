@@ -2,7 +2,7 @@
 
 namespace Shortener\Configs;
 
-class Config implements IDatabaseConfig
+class Config implements IDatabaseConfig, IRedisConfig, IAMQPConfig, ITelegramConfig
 {
     private $host;
     private $username;

@@ -12,35 +12,35 @@ class CreateLink
     private LinkRepository $links;
     private Redis $redis;
     private AMQPChannel $channel;
-    private int $limitCount;
-    private int $limitTime;
 
     public function __construct(LinkRepository $links, Redis $redis, AMQPChannel $channel)
     {
         $this->links = $links;
         $this->redis = $redis;
         $this->channel = $channel;
-        $this->limitCount = $_ENV['REDIS_LIMIT_COUNT'];
-        $this->limitTime = $_ENV['REDIS_LIMIT_TIME'];
     }
 
     public function getShort(): void
     {
         if (empty($_POST['source'])) {
             http_response_code(422);
-            echo "Source link is required";
+            echo json_encode([
+                "message" => "Source link is required",
+            ]);
             return;
         }
 
         $ip = $_SERVER['SERVER_ADDR'];
 
-        if ((int)$this->redis->get($ip) >= $this->limitCount) {
+        if ((int)$this->redis->get($ip) >= $_ENV['REDIS_LIMIT_COUNT']) {
             http_response_code(429);
-            echo "Too many requests";
+            echo json_encode([
+                "message" => "Too many requests",
+            ]);
             return;
         } else {
             $this->redis->incr($ip);
-            $this->redis->expire($ip, $this->limitTime);
+            $this->redis->expire($ip, $_ENV['REDIS_LIMIT_TIME']);
         }
 
         $source = $_POST['source'];
@@ -50,7 +50,7 @@ class CreateLink
         $shortUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $link->short;
 
         $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $shortUrl);
-        $this->channel->basic_publish($msg, '', 'cat-queue');
+        $this->channel->basic_publish($msg, '', 'short-notification-queue');
 
         echo json_encode([
             "message" => "Create successful",

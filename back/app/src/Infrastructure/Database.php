@@ -6,21 +6,9 @@ use mysqli;
 
 class Database
 {
-    private string $dbname;
-    private string $username;
-    private string $servername;
-    private string $password;
-
-    public function __construct()
-    {
-        $this->servername = $_ENV['DB_HOST'];
-        $this->username = $_ENV['DB_USERNAME'];
-        $this->password = $_ENV['DB_PASSWORD'];
-        $this->dbname = $_ENV['DB_NAME'];
-    }
     public function connect(): mysqli
     {
-        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

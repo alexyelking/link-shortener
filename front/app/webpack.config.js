@@ -3,7 +3,7 @@ const HTMLPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 
 module.exports = {
-    entry: './src/app.js',
+    entry: './src/js/app.js',
     output: {
         filename: 'bundle.[chunkhash].js',
         path: path.resolve(__dirname, 'public')
@@ -13,7 +13,7 @@ module.exports = {
     },
     plugins: [
         new HTMLPlugin({
-            template: './src/index.html'
+            template: './src/html/index.html'
         }),
         new CleanWebpackPlugin()
     ],

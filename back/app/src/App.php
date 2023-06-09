@@ -35,7 +35,7 @@ class App
 
         $AMQPConnection = new AMQPStreamConnection($_ENV['AMQP_HOST'], $_ENV['AMQP_PORT'], $_ENV['AMQP_USER'], $_ENV['AMQP_PASSWORD']);
         $AMQPChannel = $AMQPConnection->channel();
-        $AMQPChannel->queue_declare('cat-queue', false, true, false, false);
+        $AMQPChannel->queue_declare('short-notification-queue', false, true, false, false);
 
         switch (true) {
             case $_SERVER['REDIRECT_URL'] == '/links' && $_SERVER['REQUEST_METHOD'] == 'GET':

@@ -8,31 +8,17 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class TelegramSender
 {
-    private string $host;
-    private int $port;
-    private string $user;
-    private string $password;
-
-    public function __construct()
-    {
-        $this->host = $_ENV['AMQP_HOST'];
-        $this->port = $_ENV['AMQP_PORT'];
-        $this->user = $_ENV['AMQP_USER'];
-        $this->password = $_ENV['AMQP_PASSWORD'];
-    }
-
     public function run(): void
     {
-        $consumer = new TelegramSender();
-        $callback = function ($msg) use ($consumer) {
-            $consumer->sendMessage($msg);
+        $callback = function (AMQPMessage $msg) {
+            $this->sendMessage($msg);
         };
 
-        $connection = new AMQPStreamConnection($this->host, $this->port, $this->user, $this->password);
+        $connection = new AMQPStreamConnection($_ENV['AMQP_HOST'], $_ENV['AMQP_PORT'], $_ENV['AMQP_USER'], $_ENV['AMQP_PASSWORD']);
         $channel = $connection->channel();
 
-        $channel->queue_declare('cat-queue', false, true, false, false);
-        $channel->basic_consume('cat-queue', '', false, true, false, false, $callback);
+        $channel->queue_declare('short-notification-queue', false, true, false, false);
+        $channel->basic_consume('short-notification-queue', '', false, true, false, false, $callback);
 
         while ($channel->is_open()) {
             $channel->wait();
