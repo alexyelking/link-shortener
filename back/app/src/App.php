@@ -2,18 +2,14 @@
 
 namespace Shortener;
 
-use Redis;
 use Shortener\Controllers\GetLinks;
 use Shortener\Controllers\NotFound;
 use Shortener\Controllers\Redirect;
 use Shortener\Controllers\CreateLink;
-use Shortener\Infrastructure\Database;
 use Shortener\Infrastructure\DatabaseConnectionReturner;
 use Shortener\Infrastructure\RedisConnectionReturner;
 use Shortener\Repositories\LinkRepository;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Shortener\Infrastructure\AMQPConnectionReturner;
-
 
 class App
 {

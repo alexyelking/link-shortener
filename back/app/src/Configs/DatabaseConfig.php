@@ -6,10 +6,10 @@ use Shortener\Models\DatabaseConnection;
 
 class DatabaseConfig implements ILoadConfig
 {
-    private string $host;
-    private string $username;
-    private string $password;
-    private string $name;
+    public string $host;
+    public string $username;
+    public string $password;
+    public string $name;
 
     public function __construct()
     {
@@ -19,7 +19,7 @@ class DatabaseConfig implements ILoadConfig
         $this->name = $_ENV['DB_NAME'];
     }
 
-    public function loadConfig(): DatabaseConnection
+    public function loadConfig()
     {
         return new DatabaseConnection($this->host, $this->username, $this->password, $this->name);
     }

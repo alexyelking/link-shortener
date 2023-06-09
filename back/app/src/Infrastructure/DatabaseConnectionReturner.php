@@ -8,10 +8,10 @@ use Shortener\Configs\DatabaseConfig;
 
 class DatabaseConnectionReturner
 {
-    private string $host;
-    private string $username;
-    private string $password;
-    private string $name;
+    public string $host;
+    public string $username;
+    public string $password;
+    public string $name;
 
     public function __construct()
     {
