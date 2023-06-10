@@ -8,40 +8,46 @@
     <link rel="shortcut icon" href="#">
 </head>
 <body>
-<div class="short-block">
 
-    <div class="short-header">
 
+<header>
+    <div class="logo">
+        ЛОГОТИП
+    </div>
+    <div class="nav">
+        СТРАНИЦА СОКРАЩЕНИЯ
+        СТРАНИЦА СПИСОК
+    </div>
+</header>
+
+
+<main>
+    <div class="short-block">
+        <div class="short-header">
             Insert the link in the field below
-
+        </div>
+        <div class="short-body">
+            <form class="short-form" id="form">
+                <div class="short-text-field">
+                    <label for="link-input">Your link:</label>
+                    <input type="url" id="link-input" style="text-align: center">
+                </div>
+                <button
+                        type="submit"
+                        class="button"
+                        id="submit-btn"
+                >
+                    Get your short link
+                </button>
+            </form>
+        </div>
     </div>
+</main>
 
-    <div class="short-body">
 
-        <form class="short-form" id="form">
+<footer>
 
-            <div class="short-text-field">
+</footer>
 
-                <label for="link-input">Your link:</label>
-
-                <input type="url" id="link-input" style="text-align: center">
-
-            </div>
-
-            <button
-                    type="submit"
-                    class="button"
-                    id="submit-btn"
-            >
-
-                Get your short link
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
 </body>
 </html>

@@ -1,0 +1,24 @@
+/*.left {*/
+/*    float: left;*/
+/*    width: 33%;*/
+/*    height: 300px;*/
+/*    background: green;*/
+/*}*/
+/*.right-top,*/
+/*.right-bottom {*/
+/*    float: right;*/
+/*    width: 67%;*/
+/*}*/
+/*.right-top {*/
+/*    height: 100px;*/
+/*    background: red;*/
+/*}*/
+/*.right-bottom {*/
+/*    height: 200px;*/
+/*    background: blue;*/
+/*}*/
+/*.clearfix::after {*/
+/*    display: block;*/
+/*    content: '';*/
+/*    clear: both;*/
+/*}*/
