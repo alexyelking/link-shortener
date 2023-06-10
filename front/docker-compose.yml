@@ -8,4 +8,5 @@ services:
     volumes:
       - ./app:/project
     command: [sh, -c, "npm install && npm start"]
+#    command: [sh, -c, "tail -f /dev/null"]
     working_dir: /project
