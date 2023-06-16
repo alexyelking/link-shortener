@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'Jua Regular';
+	src: url('./fonts/jua_regular.eot'); /* IE 9 Compatibility Mode */
+	src: url('./fonts/jua_regular.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
+		url('./fonts/jua_regular.woff2') format('woff2'), /* Super Modern Browsers */
+		url('./fonts/jua_regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+		url('./fonts/jua_regular.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('./fonts/jua_regular.svg#jua_regular') format('svg'); /* Chrome < 4, Legacy iOS */
+}

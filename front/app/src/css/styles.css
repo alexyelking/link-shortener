@@ -1,24 +1,22 @@
-/*.left {*/
-/*    float: left;*/
-/*    width: 33%;*/
-/*    height: 300px;*/
-/*    background: green;*/
-/*}*/
-/*.right-top,*/
-/*.right-bottom {*/
-/*    float: right;*/
-/*    width: 67%;*/
-/*}*/
-/*.right-top {*/
-/*    height: 100px;*/
-/*    background: red;*/
-/*}*/
-/*.right-bottom {*/
-/*    height: 200px;*/
-/*    background: blue;*/
-/*}*/
-/*.clearfix::after {*/
-/*    display: block;*/
-/*    content: '';*/
-/*    clear: both;*/
-/*}*/
+@import '../font/jua_regular.css';
+
+body {
+    font-family: 'Jua Regular', sans-serif;
+}
+
+header {
+    background-color: #8585f1;
+}
+
+.header-section .header-logo {
+    height: 100px;
+    width: 100px;
+    /*background-image: url('https://drive.google.com/uc?export=view&id=1RqFuFEkQrciwWJo1So-IICYAxxEhMjl5');*/
+}
+main {
+    background-color: blueviolet;
+}
+
+footer {
+    background-color: aqua;
+}

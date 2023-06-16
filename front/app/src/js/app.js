@@ -1,9 +1,10 @@
-import '../css/styles.css'
+import '../css/styles.css';
 import axios from 'axios';
 
 const form = document.getElementById('form')
 const input = form.querySelector('#link-input')
 const submitBtn = form.querySelector('#submit-btn')
+
 
 form.addEventListener('submit', submitHandler)
 
