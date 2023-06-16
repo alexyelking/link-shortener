@@ -22,7 +22,7 @@ module.exports = {
             // HTML Loader
             {
                 test: /\.html$/,
-                type: 'asset/resource',
+                use: ['html-loader'],
             },
             // CSS loading
             {
@@ -37,7 +37,7 @@ module.exports = {
             // Fonts Loading
             {
                 test: /\.(ttf|otf|eot|woff|woff2)$/,
-                use: ['file-loader'],
+                type: 'asset/resource'
             }
         ],
     },
