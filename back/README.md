@@ -14,21 +14,17 @@
 
 Docker and Docker-compose are required to run
 
-1. Duplicate «.env.example» and rename to «.env»
+1. Duplicate «.env.example» and rename to «.env» **in root folder**
 
 ```
 cp .env.example .env
 ```
 
-2. In «.env»
+In «.env» specify all the necessary information or leave the existing one
 
-   2.1. Specify a free port for «MYSQL», «APACHE2» and «RABBITMQ_UI», or leave the one that has already been installed
+2. Duplicate «.env.example» and rename to «.env» **in «app» folder**
 
-   2.2. Specify your telegram bot token and your chat ID for notification.
-
-   2.3. Specify the limits of link abbreviations: "REDIS_LIMIT_COUNT" and "REDIS_LIMIT_TIME", where the first is the
-   number of abbreviations, and the second is how long it takes to make a certain number of abbreviations. The time
-   limit is specified in seconds
+In «.env» Specify all the necessary information
 
 3. Git config core file mode must be false
 
