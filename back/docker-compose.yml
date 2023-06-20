@@ -53,7 +53,7 @@ services:
     ports:
       - ${RABBITMQ_UI_PORT}:15672
     volumes:
-      - rabbitmq_store:/var/lib/rabbitmq
+      - ./rabbitmq:/var/lib/rabbitmq
 
   consumer:
     build: ./consumer
@@ -79,6 +79,3 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
-
-volumes:
-  rabbitmq_store:

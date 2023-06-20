@@ -53,7 +53,7 @@ class CreateLink
 
         $shortUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $link->short;
 
-        $msg = new AMQPMessage('There was a reduction of some link.' . "%0A" . 'Source link: ' . urlencode($source) . "%0A" . 'Short link: ' . $shortUrl);
+        $msg = new AMQPMessage('There%20was%20a%20reduction%20of%20some%20link.' . "%0A" . 'Source%20link:%20' . urlencode($source) . "%0A" . 'Short%20link:%20' . $shortUrl);
         $this->channel->basic_publish($msg, '', 'short-notification-queue');
 
         echo json_encode([
